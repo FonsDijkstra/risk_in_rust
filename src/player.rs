@@ -24,5 +24,12 @@ impl Player {
     pub fn new(color: Color) -> Player {
         Player { color: color, countries: HashMap::new() }
     }
+
+    pub fn add_country(&mut self, country: CountryId) {
+        if self.countries.contains_key(&country) {
+            panic!("player already has country")
+        }
+        self.countries.insert(country, ());
+    }
 }
 

@@ -21,7 +21,7 @@ impl Game {
     }
 
     pub fn add_player(&mut self, color: Color) {
-        self.players.push(Player::new(color));
+        self.players.push(Player::new(color))
     }
 
     pub fn start(&mut self) {
@@ -29,15 +29,16 @@ impl Game {
     }
 
     fn devide_countries(&mut self) {
-        let mut rng = rand::thread_rng();
         let mut countries = self.map.all_countries().collect::<Vec<_>>();
-        rng.shuffle(&mut countries);
+        rand::thread_rng().shuffle(&mut countries);
 
-        for player in self.players.iter().cycle() {
-            match countries.pop() {
-                Some(country) => println!("{:?}: {:?}", player, country),
-                None => break,
+        let mut index = 0usize;
+        for country in countries {
+            if index == self.players.len() {
+                index = 0usize;
             }
+            self.players.get_mut(index).expect("player should exist").add_country(country);
+            index += 1
         }
     }
 }
