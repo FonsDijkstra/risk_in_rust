@@ -1,0 +1,9 @@
+[package]
+name = "risk_in_rust"
+version = "0.0.1"
+authors = [ "Fons Dijkstra" ]
+
+[dependencies]
+rand = "0.3"
+petgraph = "0.4.4"
+
