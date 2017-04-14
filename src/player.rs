@@ -1,5 +1,6 @@
 extern crate std;
 
+use std::fmt;
 use std::collections::HashSet;
 pub use board::{CountryId, Country};
 
@@ -14,15 +15,18 @@ pub enum Color {
     Green,
 }
 
+pub trait Player : fmt::Debug {
+}
+
 #[derive(Debug)]
-pub struct Player {
+pub struct HumanPlayer {
     color: Color,
     countries: HashSet<CountryId>
 }
 
-impl Player {
-    pub fn new(color: Color) -> Player {
-        Player { color: color, countries: HashSet::new() }
+impl HumanPlayer {
+    pub fn new(color: Color) -> Self {
+        HumanPlayer { color: color, countries: HashSet::new() }
     }
 
     pub fn add_country(&mut self, country: CountryId) {
@@ -30,5 +34,22 @@ impl Player {
             panic!("Player already has country");
         }
     }
+}
+
+impl Player for HumanPlayer {
+}
+
+#[derive(Debug)]
+pub struct DummyPlayer {
+    countries: HashSet<CountryId>
+}
+
+impl DummyPlayer {
+    pub fn new() -> Self {
+        DummyPlayer { countries: HashSet::new() }
+    }
+}
+
+impl Player for DummyPlayer {
 }
 
