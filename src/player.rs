@@ -29,10 +29,9 @@ impl HumanPlayer {
         HumanPlayer { color: color, countries: HashSet::new() }
     }
 
-    pub fn add_country(&mut self, country: CountryId) {
-        if !self.countries.insert(country) {
-            panic!("Player already has country");
-        }
+    pub fn setup(&mut self, countries: &HashSet<CountryId>, armies: u8) {
+        self.countries = countries.clone();
+
     }
 }
 

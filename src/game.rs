@@ -2,8 +2,9 @@ extern crate std;
 extern crate rand;
 
 use std::vec::Vec;
+use std::collections::{HashMap, HashSet};
 use self::rand::Rng;
-pub use board::{Map, Deck, Strength};
+pub use board::{Map, Deck, CountryId};
 pub use player::{DummyPlayer, HumanPlayer, Color};
 
 #[derive(Debug)]
@@ -33,21 +34,30 @@ impl Game {
     }
 
     pub fn start(&mut self) {
-        self.devide_countries();
+        let armies = self.initial_number_of_armies();
+        self.devide_countries(armies);
     }
 
-    fn devide_countries(&mut self) {
+    fn initial_number_of_armies(&self) -> u8 {
+        match self.players.len() {
+            4 => 30,
+            5 => 25,
+            6 => 20,
+            _ => panic!("not enough players"),
+        }
+    }
+
+    fn devide_countries(&mut self, armies: u8) {
         let mut countries = self.map.all_countries().collect::<Vec<_>>();
         rand::thread_rng().shuffle(&mut countries);
 
-        // we cannot use self.players.iter_mut().cycle()
-        let mut index = 0usize;
-        for country in countries {
-            if index == self.players.len() {
-                index = 0usize;
-            }
-            self.players.get_mut(index).expect("player should exist").add_country(country);
-            index += 1
+        let mut division = HashMap::new();
+        for (i, country) in countries.iter().enumerate() {
+            division.entry(i % self.players.len()).or_insert(HashSet::new()).insert(*country);
+        }
+
+        for (index, countries) in division.iter() {
+            self.players[*index].setup(countries, armies - countries.len() as u8);
         }
     }
 }
