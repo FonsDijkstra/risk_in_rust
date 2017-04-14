@@ -35,7 +35,7 @@ pub struct CountryCard {
 }
 
 impl CountryCard {
-    pub fn new(country: CountryId, strength: Strength) -> CountryCard {
+    pub fn new(country: CountryId, strength: Strength) -> Self {
         CountryCard { country: country, strength: strength }
     }
 }

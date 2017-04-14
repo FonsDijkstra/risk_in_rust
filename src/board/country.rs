@@ -29,7 +29,7 @@ pub struct Map {
 }
 
 impl Map {
-    pub fn new() -> Map {
+    pub fn new() -> Self {
         let mut graph = UnGraph::<_, ()>::new_undirected();
 
         let venezuela = graph.add_node(Country::new("Venezuela", Strength::Artillery)); 
