@@ -10,9 +10,14 @@ type CountryIterator = NodeIndices;
 pub struct Country {
     name: &'static str,
     strength: Strength,
+    armies: u8,
 }
 
 impl Country {
+    fn new(name: &'static str, strength: Strength) -> Self {
+        Country { name: name, strength: strength, armies: 1 }
+    }
+
     pub fn get_strength(&self) -> Strength {
         self.strength
     }
@@ -27,17 +32,17 @@ impl Map {
     pub fn new() -> Map {
         let mut graph = UnGraph::<_, ()>::new_undirected();
 
-        let venezuela = graph.add_node(Country { name: "Venezuela", strength: Strength::Artillery }); 
-        let brazil = graph.add_node(Country { name: "Brazil", strength: Strength::Artillery });
-        let peru = graph.add_node(Country { name: "Peru", strength: Strength::Cavelry });
-        let argentina = graph.add_node(Country { name: "Argentine", strength: Strength::Infantry });
+        let venezuela = graph.add_node(Country::new("Venezuela", Strength::Artillery)); 
+        let brazil = graph.add_node(Country::new("Brazil", Strength::Artillery));
+        let peru = graph.add_node(Country::new("Peru", Strength::Cavelry));
+        let argentina = graph.add_node(Country::new("Argentine", Strength::Infantry));
 
-        let egypt = graph.add_node(Country { name: "Egypt", strength: Strength::Infantry });
-        let east_africa = graph.add_node(Country { name: "East Africa", strength: Strength::Artillery });
-        let north_africa = graph.add_node(Country { name: "North Africa", strength: Strength::Infantry});
-        let south_africa = graph.add_node(Country { name: "South Africa", strength: Strength::Artillery});
-        let central_africa = graph.add_node(Country { name: "Central Africa", strength: Strength::Cavelry });
-        let madagascar = graph.add_node(Country { name: "Madagascar", strength: Strength::Infantry });
+        let egypt = graph.add_node(Country::new("Egypt", Strength::Infantry));
+        let east_africa = graph.add_node(Country::new("East Africa", Strength::Artillery));
+        let north_africa = graph.add_node(Country::new("North Africa", Strength::Infantry));
+        let south_africa = graph.add_node(Country::new("South Africa", Strength::Artillery));
+        let central_africa = graph.add_node(Country::new("Central Africa", Strength::Cavelry));
+        let madagascar = graph.add_node(Country::new("Madagascar", Strength::Infantry));
 
         graph.add_edge(venezuela, peru, ());
         graph.add_edge(venezuela, brazil, ());
