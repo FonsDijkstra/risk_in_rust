@@ -1,6 +1,6 @@
 extern crate std;
 
-use std::collections::HashMap;
+use std::collections::HashSet;
 pub use board::{CountryId, Country};
 
 #[derive(Debug)]
@@ -17,19 +17,18 @@ pub enum Color {
 #[derive(Debug)]
 pub struct Player {
     color: Color,
-    countries: HashMap<CountryId, ()>,
+    countries: HashSet<CountryId>
 }
 
 impl Player {
     pub fn new(color: Color) -> Player {
-        Player { color: color, countries: HashMap::new() }
+        Player { color: color, countries: HashSet::new() }
     }
 
     pub fn add_country(&mut self, country: CountryId) {
-        if self.countries.contains_key(&country) {
-            panic!("player already has country")
+        if !self.countries.insert(country) {
+            panic!("Player already has country");
         }
-        self.countries.insert(country, ());
     }
 }
 
