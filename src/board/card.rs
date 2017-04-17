@@ -16,6 +16,7 @@ pub enum Strength {
 }
 
 pub trait Card : fmt::Debug {
+    fn country(&self) -> Option<CountryId>;
     fn strength(&self) -> Strength;
 
     fn armies(&self) -> u8 {
@@ -41,6 +42,10 @@ impl CountryCard {
 }
 
 impl Card for CountryCard {
+    fn country(&self) -> Option<CountryId> {
+        Some(self.country)
+    }
+
     fn strength(&self) -> Strength {
         self.strength
     }
@@ -50,6 +55,10 @@ impl Card for CountryCard {
 pub struct WildCard;
 
 impl Card for WildCard {
+    fn country(&self) -> Option<CountryId> {
+        None
+    }
+
     fn strength(&self) -> Strength {
         Strength::Wild
     }

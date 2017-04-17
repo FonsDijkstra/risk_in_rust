@@ -16,6 +16,7 @@ pub enum Color {
 }
 
 pub trait Player : fmt::Debug {
+    fn has_country(&self, country: CountryId) -> bool;
 }
 
 #[derive(Debug)]
@@ -31,11 +32,13 @@ impl HumanPlayer {
 
     pub fn setup(&mut self, countries: &HashSet<CountryId>, armies: u8) {
         self.countries = countries.clone();
-
     }
 }
 
 impl Player for HumanPlayer {
+    fn has_country(&self, country: CountryId) -> bool {
+        self.countries.contains(&country)
+    }
 }
 
 #[derive(Debug)]
@@ -50,5 +53,8 @@ impl DummyPlayer {
 }
 
 impl Player for DummyPlayer {
+    fn has_country(&self, country: CountryId) -> bool {
+        self.countries.contains(&country)
+    }
 }
 
